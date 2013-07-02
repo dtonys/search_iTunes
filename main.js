@@ -8,6 +8,8 @@ $(document).ready(function(e){
   
   //keep track of result metadata
   var dataArray = [];
+  var resultList = [];
+  var resultHtml = null;
   
   //send request whenever user types key
   $('.search-wrap').on('keyup', function(e){
@@ -17,18 +19,22 @@ $(document).ready(function(e){
         url: "http://itunes.apple.com/search?term="+val,
         dataType: 'JSONP'
       }).done(function(data){
+        if(!data){
+          alert('no data');
+          return;
+        }
         console.log(data);
         $count.text(data.resultCount);
+        $resultHtml = null;
         $results.empty();
         dataArray = [];
         
         //for each results, add element to result list
         for(var i = 0, len = data.results.length; i < len; i++){
-          var $new = $li.clone();
-          dataArray.push(data.results[i]);
-          $new.removeClass('hidden');
-          $new.find('img').attr('src', data.results[i].artworkUrl100);
-          $results.append($new);
+          var res = new result(data.results[i]);
+          resultHtml += res.html;
+          resultList.push(res);
+          $results.append(res.html);
         }
       })
       .fail(function(data){
@@ -43,3 +49,13 @@ $(document).ready(function(e){
     alert(JSON.stringify(dataArray[$(this).index()]), undefined, 2);
   });
 });
+
+//result object
+function result(data){
+  this.data = data;
+  this.artist = data.artistName
+  this.image = data.artworkUrl100;
+  this.url = data.artistViewUrl;
+  this.html = '<li title="'+data.artistName+'><a href="'+data.artistViewUrl+
+              '"><img src="'+this.image+'" /></a></li>';
+}
