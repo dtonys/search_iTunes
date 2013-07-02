@@ -1,0 +1,35 @@
+#navbar{
+  background: #AAAAAA;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+}
+#count{
+  top: 50px;
+}
+#content{
+  margin-top: 46px;
+  margin-left: 10px;
+  background: #EEEEEE;
+}
+#results{
+  padding: 10px;
+  background: #DDDDDD;
+  list-style: none;
+}
+#results li{
+  display: inline-block;
+  padding: 5px;
+}
+#search{
+  width: 200px;
+}
+.hidden{
+  display: none
+}
+.list-template{
+  cursor: pointer;
+}
